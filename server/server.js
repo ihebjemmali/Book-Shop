@@ -1,7 +1,7 @@
 const express = require("express");
-const userRouter = require("./routes/user");
+const userRouter = require("./routes/userRoutes.js");
 // Connection to DB
-const connect = require("./connectToDb");
+const connect = require("./database/db.js");
 
 // Init app
 const app = express();
@@ -9,20 +9,13 @@ const app = express();
 // Middlewares
 app.use(express.json());
 //localhost:5000/user/create
-http: app.use("/user", userRouter);
+app.use("/user", userRouter);
 
-<<<<<<< HEAD
 // Running the server
 const PORT = 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, (err) => {
+  if (err) console.log(err);
+
   console.log(`Server running on port ${PORT}`);
 });
-=======
-
-app.use("/api", userRoutes);
-app.use("/api", bookRoutes);
-
-
-app.listen(3000, () => console.log("Server running on port 3000"));
->>>>>>> 602775740552060a30bac957c34c2a79b944895f
