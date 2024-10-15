@@ -1,13 +1,11 @@
 const mongoose = require("mongoose");
-
-const connectDB = async () => {
-  try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/bookhaven");
-    console.log("MongoDB connected");
-  } catch (error) {
-    console.error("MongoDB connection error:", error);
-    process.exit(1);
-  }
-};
-
-module.exports = connectDB;
+var url = "mongodb://127.0.0.1:27017/user";
+mongoose
+  .connect(url)
+  .then(() => {
+    console.log("connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+module.exports = mongoose;

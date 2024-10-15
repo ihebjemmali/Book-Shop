@@ -1,20 +1,28 @@
 const express = require("express");
-const cors = require("cors");
-const connectDB = require("./database/db");
-const userRoutes = require("./routes/userRoutes");
-const bookRoutes = require("./routes/bookRoutes");
+const userRouter = require("./routes/user");
+// Connection to DB
+const connect = require("./connectToDb");
 
+// Init app
 const app = express();
-const PORT = 3000;
 
-connectDB();
-
+// Middlewares
 app.use(express.json());
-app.use(cors());
+//localhost:5000/user/create
+http: app.use("/user", userRouter);
 
+<<<<<<< HEAD
+// Running the server
+const PORT = 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+=======
 
 app.use("/api", userRoutes);
 app.use("/api", bookRoutes);
 
 
 app.listen(3000, () => console.log("Server running on port 3000"));
+>>>>>>> 602775740552060a30bac957c34c2a79b944895f

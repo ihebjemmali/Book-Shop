@@ -1,10 +1,39 @@
 const mongoose = require("mongoose");
+const joi = require("joi");
 
-const userSchema = new mongoose.Schema({
-  firstName: String,
-  lastName: String,
-  address: String,
-  password: String,
+// User schema
+const UserSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 4,
+    maxlength: 22,
+  },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 10,
+    maxlength: 22,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 10,
+  },
+  profilePhoto: {
+    type: Object,
+    default: {
+      url: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      publicId: null,
+    },
+  },
 });
 
-module.exports = mongoose.model("User", userSchema);
+// User model
+const User = mongoose.model("User", UserSchema);
+
+module.exports = User;
