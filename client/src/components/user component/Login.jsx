@@ -28,7 +28,7 @@ const Login = () => {
       const data = await response.json();
       console.log(data);
       if (data.success) {
-        navigate("/someProtectedRoute"); // Replace with your protected route
+        navigate("/someProtectedRoute"); 
       } else {
         alert(data.message || "Login failed");
       }
