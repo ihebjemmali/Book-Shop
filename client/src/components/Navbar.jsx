@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -9,6 +8,12 @@ const Navbar = () => {
       <div className="flex space-x-4">
         <Link to="/" className="hover:underline">
           Home
+        </Link>
+        <Link to="/add-book" className="hover:underline">
+          Add Book
+        </Link>
+        <Link to="/sign-in" className="hover:underline">
+          Sign In
         </Link>
       </div>
     </nav>
