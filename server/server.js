@@ -1,5 +1,6 @@
 const express = require("express");
 const userRouter = require("./routes/userRoutes.js");
+const bookRouter = require("./routes/bookRoutes.js");
 // Connection to DB
 const connect = require("./database/db.js");
 
@@ -10,6 +11,7 @@ const app = express();
 app.use(express.json());
 //localhost:5000/user/create
 app.use("/user", userRouter);
+app.use("/book", bookRouter);
 
 // Running the server
 const PORT = 5000;
