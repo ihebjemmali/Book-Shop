@@ -1,10 +1,11 @@
+// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Login from "./components/user component/Login";
+import Register from "./components/user component/Register";
 import Home from "./pages/Home";
 import BookDetails from "./components/BookDetails";
-import Navbar from "./components/Navbar";
-import AddBook from "./pages/AddBook";
-import SignIn from "./pages/SignIn";
 
 const App = () => {
   return (
@@ -12,9 +13,9 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/book/:id" element={<BookDetails />} />
-        <Route path="/add-book" element={<AddBook />} />
-        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-in" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/books/:id" element={<BookDetails />} />{" "}
       </Routes>
     </Router>
   );

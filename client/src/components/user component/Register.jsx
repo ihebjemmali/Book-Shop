@@ -27,14 +27,16 @@ const Register = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-      console.log(data);
+
       if (data.success) {
-        navigate("/login");
+        alert("Registration successful! Redirecting to home...");
+        navigate("/"); // Redirect to Home after registration
       } else {
         alert(data.message || "Registration failed");
       }
     } catch (error) {
       console.error("Error:", error);
+      alert("An error occurred during registration.");
     }
   };
 
@@ -75,6 +77,16 @@ const Register = () => {
         >
           Register
         </button>
+        <p className="mt-4 text-center">
+          Already have an account?{" "}
+          <button
+            type="button"
+            onClick={() => navigate("/sign-in")}
+            className="text-blue-500"
+          >
+            Sign In
+          </button>
+        </p>
       </form>
     </div>
   );

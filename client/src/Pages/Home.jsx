@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import BookItem from "../components/BookItem";
 
 const Home = () => {
   const [books, setBooks] = useState([]);
@@ -38,7 +37,15 @@ const Home = () => {
 
       <div className="grid grid-cols-2 gap-4">
         {filteredBooks.map((book) => (
-          <BookItem key={book.id} book={book} />
+          <div key={book.id} className="border p-4 rounded shadow-lg">
+            <img
+              src={book.volumeInfo.imageLinks?.thumbnail}
+              alt={book.volumeInfo.title}
+              className="w-full h-auto mb-2"
+            />
+            <h3 className="text-lg font-semibold">{book.volumeInfo.title}</h3>
+            <p className="text-sm">{book.volumeInfo.authors?.join(", ")}</p>
+          </div>
         ))}
       </div>
     </div>

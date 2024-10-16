@@ -2,17 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -20,15 +14,12 @@ const Login = () => {
     try {
       const response = await fetch("http://localhost:5000/user/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-      console.log(data);
       if (data.success) {
-        navigate("/someProtectedRoute"); 
+        navigate("/"); // Redirect to Home on success
       } else {
         alert(data.message || "Login failed");
       }
@@ -66,13 +57,16 @@ const Login = () => {
         >
           Login
         </button>
-        <button
-          type="button"
-          onClick={() => navigate("/register")}
-          className="text-blue-500 mt-4 w-full"
-        >
-          Create one
-        </button>
+        <p className="mt-4 text-center">
+          If you don't have an account,{" "}
+          <button
+            type="button"
+            onClick={() => navigate("/register")}
+            className="text-blue-500"
+          >
+            create one
+          </button>
+        </p>
       </form>
     </div>
   );
