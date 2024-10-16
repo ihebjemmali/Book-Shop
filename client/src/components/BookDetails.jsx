@@ -1,66 +1,57 @@
+// src/components/BookDetails.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const BookDetails = () => {
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Dummy Data for Testing
-  const booksData = [
-    {
-      id: "670f89f07f37e76d2e816d92",
-      title: "The Great Gatsby",
-      imageURL: "https://via.placeholder.com/150",
-      description: "A novel written by American author F. Scott Fitzgerald.",
-      author: "F. Scott Fitzgerald",
-      genre: "Fiction",
-      pdfLink: "https://example.com/pdf/the-great-gatsby",
-      publishedYear: 1925,
-      price: 15.99,
-    },
-    // Add more dummy books here
-  ];
-
   useEffect(() => {
-    const fetchBookDetails = () => {
-      const bookDetails = booksData.find((book) => book.id === id);
-      setBook(bookDetails);
-      setLoading(false);
+    const fetchBookDetails = async () => {
+      try {
+        const response = await axios.get(
+          `https://www.googleapis.com/books/v1/volumes/${id}`
+        );
+        setBook(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching book details: ", error);
+      }
     };
 
     fetchBookDetails();
   }, [id]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (!book) return <div>Book not found.</div>;
 
-  if (!book) {
-    return <div>Book not found.</div>;
-  }
+  const { volumeInfo } = book;
 
   return (
     <div>
-      <h1>{book.title}</h1>
-      <img src={book.imageURL} alt={book.title} />
+      <h1>{volumeInfo.title}</h1>
+      <img
+        src={volumeInfo.imageLinks?.thumbnail}
+        alt={volumeInfo.title}
+        className="mb-4"
+      />
       <p>
-        <strong>Author:</strong> {book.author}
+        <strong>Author:</strong> {volumeInfo.authors?.join(", ")}
       </p>
       <p>
-        <strong>Genre:</strong> {book.genre}
+        <strong>Published Year:</strong> {volumeInfo.publishedDate}
       </p>
       <p>
-        <strong>Description:</strong> {book.description}
+        <strong>Description:</strong> {volumeInfo.description}
       </p>
-      <p>
-        <strong>Published Year:</strong> {book.publishedYear}
-      </p>
-      <p>
-        <strong>Price:</strong> ${book.price.toFixed(2)}
-      </p>
-      <a href={book.pdfLink} target="_blank" rel="noopener noreferrer">
-        Read PDF
+      <a
+        href={volumeInfo.previewLink}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Preview Book
       </a>
     </div>
   );
