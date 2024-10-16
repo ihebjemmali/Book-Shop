@@ -1,57 +1,52 @@
-const Book = require("../models/book");
+const Book = require("../models/Book");
 
-const getBooks = async (req, res) => {
+// Get all books
+const getAllBooks = async (req, res) => {
   try {
     const books = await Book.find();
-    res.json(books);
+    res.status(200).json(books);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
+// Create a new book
 const createBook = async (req, res) => {
-  const book = new Book(req.body);
   try {
-    const newBook = await book.save();
-    res.status(201).json(newBook);
+    const book = new Book(req.body);
+    await book.save();
+    res.status(201).json(book);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
+// Update a book
 const updateBook = async (req, res) => {
   try {
-    const book = await Book.findById(req.params.id);
-    if (!book) return res.status(404).json({ message: "Book not found" });
-
-    book.title = req.body.title || book.title;
-    book.author = req.body.author || book.author;
-    book.price = req.body.price || book.price;
-    book.description = req.body.description || book.description;
-    book.imageUrl = req.body.imageUrl || book.imageUrl;
-
-    const updatedBook = await book.save();
-    res.json(updatedBook);
+    const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!updatedBook) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+    res.status(200).json(updatedBook);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
+// Delete a book
 const deleteBook = async (req, res) => {
   try {
-    const book = await Book.findById(req.params.id);
-    if (!book) return res.status(404).json({ message: "Book not found" });
-
-    await book.remove();
-    res.json({ message: "Book deleted" });
+    const deletedBook = await Book.findByIdAndDelete(req.params.id);
+    if (!deletedBook) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+    res.status(200).json({ message: "Book deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = {
-  getBooks,
-  createBook,
-  updateBook,
-  deleteBook,
-};
+module.exports = { getAllBooks, createBook, updateBook, deleteBook };

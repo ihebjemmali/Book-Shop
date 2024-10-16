@@ -1,27 +1,21 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
+const userRouter = require("./routes/userRoutes.js");
+// Connection to DB
+const connect = require("./database/db.js");
 
-const userRoutes = require("./routes/userRoutes");
-const bookRoutes = require("./routes/bookRoutes"); // Add the book routes
-
+// Init app
 const app = express();
+
+// Middlewares
 app.use(express.json());
-app.use(cors());
+//localhost:5000/user/create
+app.use("/user", userRouter);
 
-const url = "mongodb://127.0.0.1:27017/bookstore"; // Use a meaningful database name
+// Running the server
+const PORT = 5000;
 
-mongoose
-  .connect(url)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.error("Error connecting to MongoDB:", err);
-  });
+app.listen(PORT, (err) => {
+  if (err) console.log(err);
 
-// Define the base URL for each set of routes
-app.use("/api/users", userRoutes); // Users routes under /api/users
-app.use("/api/books", bookRoutes); // Books routes under /api/books
-
-app.listen(3000, () => console.log("Server running on port 3000"));
+  console.log(`Server running on port ${PORT}`);
+});

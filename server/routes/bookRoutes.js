@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  getBooks,
+  getAllBooks,
   createBook,
   updateBook,
   deleteBook,
@@ -8,9 +8,10 @@ const {
 
 const router = express.Router();
 
-router.get("/books", getBooks);
-router.post("/books", createBook);
-router.put("/books/:id", updateBook);
-router.delete("/books/:id", deleteBook);
+// Book routes
+router.get("/", getAllBooks);
+router.post("/", createBook);
+router.put("/:id", updateBook); // Update a book
+router.delete("/:id", deleteBook); // Delete a book
 
 module.exports = router;
