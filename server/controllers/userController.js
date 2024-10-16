@@ -1,29 +1,33 @@
-
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
+const { User,  } = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { log } = require("console");
 
 // POST route to create a new user
 const createNewUser = async (req, res) => {
-  const { data } = req.body;
-  const user = new User(data);
-  const salt = bcrypt.genSaltSync(10);
-  const cryptedPassword = await bcrypt.hashSync(data.password, salt);
-  user.password = cryptedPassword;
-
   try {
-    const savedUser = await user.save();
-    res.status(200).send(savedUser);
+    const data = req.body;
+    console.log(data);
+
+    const user = new User(data);
+    const salt = bcrypt.genSaltSync(10);
+    const cryptedPassword = await bcrypt.hashSync(data.password, salt);
+    user.password = cryptedPassword;
+    user.save();
+
+    res.status(200).send(user);
   } catch (err) {
     res.send(err);
   }
 };
 
 // POST route to log in a user
-const    loginUser = async (req, res) => {
-  const { data } = req.body;
+const loginUser = async (req, res) => {
+  const data = req.body;
+  console.log(req.body);
+
   const user = await User.findOne({ email: data.email });
 
   if (!user) {
@@ -45,15 +49,4 @@ const    loginUser = async (req, res) => {
   res.status(200).send({ myToken: token });
 };
 
-// GET route to retrieve all users
-router.get("/getall", async (req, res) => {
-  try {
-    const users = await User.find();
-    res.send(users);
-  } catch (err) {
-    res.send(err);
-  }
-});
-
 module.exports = { createNewUser, loginUser };
-

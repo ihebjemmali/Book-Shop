@@ -1,22 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const BookItem = ({ book }) => {
-  const { id, volumeInfo } = book;
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/book/${book.id}`);
+  };
 
   return (
-    <div className="border p-4 rounded shadow-lg">
+    <div className="border p-4 rounded shadow" onClick={handleClick}>
       <img
-        src={
-          volumeInfo.imageLinks?.thumbnail || "https://via.placeholder.com/150"
-        }
-        alt={volumeInfo.title}
-        className="w-full h-auto mb-2"
+        src={book.imageURL}
+        alt={book.title}
+        className="mb-2 w-full h-40 object-cover"
       />
-      <h3 className="text-lg font-semibold">
-        <Link to={`/book/${id}`}>{volumeInfo.title}</Link>
-      </h3>
-      <p className="text-sm">{volumeInfo.authors?.join(", ")}</p>
+      <h2 className="font-semibold">{book.title}</h2>
+      <p className="text-gray-600">{book.author}</p>
     </div>
   );
 };
