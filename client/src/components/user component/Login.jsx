@@ -19,7 +19,7 @@ const Login = () => {
       });
       const data = await response.json();
       if (data.success) {
-        navigate("/"); // Redirect to Home on success
+        navigate("/");
       } else {
         alert(data.message || "Login failed");
       }

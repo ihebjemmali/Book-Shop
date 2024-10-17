@@ -30,7 +30,7 @@ const Register = () => {
 
       if (data.success) {
         alert("Registration successful! Redirecting to home...");
-        navigate("/"); // Redirect to Home after registration
+        navigate("/");
       } else {
         alert(data.message || "Registration failed");
       }
