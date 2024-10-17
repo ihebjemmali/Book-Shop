@@ -3,55 +3,40 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const BookDetails = () => {
-  const { id } = useParams();
-  const [book, setBook] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { id } = useParams(); // Get book ID from route params
+  const [book, setBook] = useState(null); // Store book details
+  const [loading, setLoading] = useState(true); // Track loading state
+  const [error, setError] = useState(""); // Track errors
 
   useEffect(() => {
-    const fetchBookDetails = async () => {
-      try {
-        const response = await axios.get(
-          `https://www.googleapis.com/books/v1/volumes/${id}`
-        );
-
-        if (response.data) {
-          setBook(response.data);
-        } else {
-          setError("Book not found.");
-        }
-      } catch (error) {
-        console.error("Error fetching book details: ", error);
-        setError("An error occurred while fetching the book details.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBookDetails();
+    axios
+      .get(`https://www.googleapis.com/books/v1/volumes/${id}`)
+      .then((res) => setBook(res.data))
+      .catch(() => setError("Error fetching book details."))
+      .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-  if (!book) return <div>Book not found.</div>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+  if (!book) return <p>Book not found.</p>;
 
   const { volumeInfo } = book;
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold">{volumeInfo.title}</h1>
-      {volumeInfo.imageLinks && (
+      <h1 className="text-2xl font-bold mb-2">{volumeInfo.title}</h1>
+      {volumeInfo.imageLinks?.thumbnail && (
         <img
           src={volumeInfo.imageLinks.thumbnail}
           alt={volumeInfo.title}
-          className="mb-4"
+          className="mb-4 w-64 object-cover"
         />
       )}
       <p>
         <strong>Author:</strong> {volumeInfo.authors?.join(", ") || "Unknown"}
       </p>
       <p>
-        <strong>Published Year:</strong> {volumeInfo.publishedDate || "Unknown"}
+        <strong>Published:</strong> {volumeInfo.publishedDate || "Unknown"}
       </p>
       <p>
         <strong>Description:</strong>{" "}
