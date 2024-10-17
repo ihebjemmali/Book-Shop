@@ -36,19 +36,4 @@ const UserSchema = new mongoose.Schema({
 // User model
 const User = mongoose.model("User", UserSchema);
 
-// Validate create account
-function validateCreateAccount(obj) {
-  const schema = Joi.object({
-    username: Joi.string().required().min(4).max(22).trim(),
-    email: Joi.string().required().email().min(10).max(100).trim(),
-    password: Joi.string().required().min(10).trim(),
-    profilePhoto: Joi.object().default({
-      url: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-      publicId: null,
-    }),
-  });
-
-  return schema.validate(obj);
-}
-
-module.exports = { User, validateCreateAccount };
+module.exports = { User,  };
