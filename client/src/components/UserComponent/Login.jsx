@@ -48,7 +48,7 @@ const Login = () => {
       const data = await response.text();
       const statusCode = response.status;
       if (statusCode === 200) {
-        navigate("/");
+        navigate("/home");
       } else {
         setError(data);
       }
