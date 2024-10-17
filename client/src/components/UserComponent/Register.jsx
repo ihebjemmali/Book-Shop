@@ -34,7 +34,7 @@ const Register = () => {
         body: JSON.stringify(formData),
       });
       if (response.status === 201) {
-        navigate("/");
+        navigate("/home");
       } else {
         const errorMessage = await response.text();
         setError(errorMessage);
