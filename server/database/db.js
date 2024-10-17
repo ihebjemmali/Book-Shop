@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
-var url = "mongodb://127.0.0.1:27017/user";
+
+const url = "mongodb://127.0.0.1:27017/user";
+
 mongoose
   .connect(url)
-  .then(() => {
-    console.log("connected");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Connection error", err));
+
 module.exports = mongoose;
