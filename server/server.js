@@ -14,7 +14,7 @@ app.use("/user", userRouter);
 app.use("/book", bookRouter);
 
 // Start the server
-const PORT = 5000;
+const PORT = 3004;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

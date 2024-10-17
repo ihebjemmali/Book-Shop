@@ -6,7 +6,7 @@ const BookDetails = () => {
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // To handle errors
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -15,7 +15,6 @@ const BookDetails = () => {
           `https://www.googleapis.com/books/v1/volumes/${id}`
         );
 
-        // Check if the book is found
         if (response.data) {
           setBook(response.data);
         } else {
@@ -25,20 +24,15 @@ const BookDetails = () => {
         console.error("Error fetching book details: ", error);
         setError("An error occurred while fetching the book details.");
       } finally {
-        setLoading(false); // Ensure loading state is updated
+        setLoading(false);
       }
     };
 
     fetchBookDetails();
   }, [id]);
 
-  // Loading state
   if (loading) return <div>Loading...</div>;
-
-  // Error state
   if (error) return <div>{error}</div>;
-
-  // If the book is not found, display a message
   if (!book) return <div>Book not found.</div>;
 
   const { volumeInfo } = book;

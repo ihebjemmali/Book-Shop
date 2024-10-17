@@ -26,7 +26,7 @@ const Register = () => {
       return;
     }
     try {
-      const response = await fetch("http://localhost:3001/user/create", {
+      const response = await fetch("http://localhost:3004/user/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const Register = () => {
         body: JSON.stringify(formData),
       });
       if (response.status === 201) {
-        navigate("/login");
+        navigate("/");
       } else {
         const errorMessage = await response.text();
         setError(errorMessage);
