@@ -10,7 +10,7 @@ const Home = ({ addToCart }) => {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/book/books");
+        const response = await axios.get("http://localhost:3004/book/books");
         console.log("response", response);
         setBooks(response.data); // Set books in the frontend
         setFilteredItems(response.data);
@@ -25,7 +25,7 @@ const Home = ({ addToCart }) => {
   const handleCreateCart = async (bookId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5001/book/books/${bookId}`
+        `http://localhost:3004/book/books/${bookId}`
       );
       const book = response.data;
 
@@ -33,7 +33,7 @@ const Home = ({ addToCart }) => {
         throw new Error("Book not found");
       }
 
-      const cartItem = await axios.post(`http://localhost:5001/api/cart`, {
+      const cartItem = await axios.post(`http://localhost:3004/api/cart`, {
         bookId: book._id,
         quantity: 1,
       });

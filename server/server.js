@@ -29,7 +29,7 @@ app.use("/book", bookRouter);
 app.use("/api", cartRoutes);
 
 // Running the server
-const PORT = 5001;
+const PORT = 3004;
 
 app.listen(PORT, (err) => {
   if (err) console.log(err);
