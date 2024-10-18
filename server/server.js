@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const userRouter = require("./routes/userRoutes.js");
 const bookRouter = require("./routes/bookRoutes.js");
 const cartRoutes = require("./routes/cartRoutes");
@@ -12,9 +13,11 @@ const corsOptions = {
 };
 // Connection to DB
 const connect = require("./database/db.js");
+require("./database/db.js"); // Connect to DB
 
-// Init app
+// Initialize app
 const app = express();
+app.use(cors());
 
 // Middlewares
 app.use(express.json());

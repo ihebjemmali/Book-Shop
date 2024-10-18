@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const joi = require("joi");
+const Joi = require("joi");
 
 // User schema
 const UserSchema = new mongoose.Schema({
@@ -14,9 +14,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    minlength: 10,
-    maxlength: 22,
     unique: true,
+    minlength: 10,
+    maxlength: 100,
   },
   password: {
     type: String,
@@ -36,4 +36,4 @@ const UserSchema = new mongoose.Schema({
 // User model
 const User = mongoose.model("User", UserSchema);
 
-module.exports = User;
+module.exports = { User,  };

@@ -10,6 +10,7 @@ const {
 const router = express.Router();
 
 // Book routes
+
 router.get("/books", getAllBooks); // Use "/books" here
 router.post("/books", createBook); // Use "/books" here
 router.put("/books/:id", updateBook); // Update a book
