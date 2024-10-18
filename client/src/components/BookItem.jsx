@@ -1,34 +1,31 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
-const BookItem = ({ book }) => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`/books/${book.id}`);
-  };
-
-  // Get the image URL from the book data
-  const imageUrl = book.volumeInfo?.imageLinks?.thumbnail;
-
+const BookItem = ({ book, onAddToCart, onClick }) => {
   return (
     <div
-      className="border rounded shadow p-4 cursor-pointer transition-transform duration-200 hover:scale-105 w-64" // Decreased the width of the box
-      onClick={handleClick}
+      key={book._id}
+      className="bg-white border border-gray-200 p-5 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 max-w-sm w-full" // Adjust width here as well
     >
-      {imageUrl ? (
-        <img
-          src={imageUrl}
-          alt={book.volumeInfo.title}
-          className="mb-2 w-48 h-60 object-cover rounded-md" // Set a fixed width and height for images
-        />
-      ) : (
-        <div className="mb-2 w-48 h-60 bg-gray-200 flex items-center justify-center rounded-md">
-          No Image Available
-        </div>
-      )}
-      <h2 className="font-semibold text-lg">{book.volumeInfo.title}</h2>
-      <p className="text-gray-600">{book.volumeInfo.authors?.join(", ")}</p>
+      <img
+        src={book.image}
+        alt={book.title}
+        className="w-full h-64 object-cover mb-4 rounded-lg cursor-pointer"
+        onClick={onClick} // Trigger onClick when the image is clicked
+      />
+      <h3
+        className="text-xl font-bold text-gray-800 mb-2 cursor-pointer"
+        onClick={onClick} // Trigger onClick when the title is clicked
+      >
+        {book.title}
+      </h3>
+      {/* Removed description from here */}
+      <span className="text-lg font-semibold text-gray-900">${book.price}</span>
+      <button
+        onClick={() => onAddToCart(book._id)}
+        className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
+      >
+        Add to Cart
+      </button>
     </div>
   );
 };

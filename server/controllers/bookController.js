@@ -1,6 +1,5 @@
 const Book = require("../models/book");
 
-
 // Get all books
 const getAllBooks = async (req, res) => {
   try {
@@ -50,17 +49,17 @@ const deleteBook = async (req, res) => {
   }
 };
 
+// Get book by ID
 const getBookById = async (req, res) => {
+  console.log("Fetching book with ID:", req.params.id); // Log the ID being fetched
   try {
-    // Extract the index from the URL params
     const book = await Book.findById(req.params.id);
-
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
     }
-
     res.status(200).json(book);
   } catch (error) {
+    console.error("Error fetching book by ID:", error); // Log the error for debugging
     res.status(500).json({ message: error.message });
   }
 };

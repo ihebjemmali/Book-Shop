@@ -10,11 +10,10 @@ const {
 const router = express.Router();
 
 // Book routes
-
-router.get("/books", getAllBooks); // Use "/books" here
-router.post("/books", createBook); // Use "/books" here
-router.put("/books/:id", updateBook); // Update a book
-router.delete("/books/:id", deleteBook); // Delete a book
-router.get("/books/:id", getBookById);
+router.get("/books", getAllBooks); // Get all books
+router.get("/books/:id", getBookById); // Get a book by ID
+router.post("/books", createBook); // Create a new book
+router.put("/books/:id", updateBook); // Update a book by ID
+router.delete("/books/:id", deleteBook); // Delete a book by ID
 
 module.exports = router;
