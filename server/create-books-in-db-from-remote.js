@@ -1,18 +1,6 @@
 const axios = require("axios");
 const mongoose = require("mongoose");
 const Book = require("./models/book");
-// Adjust the path as needed
-
-// MongoDB connection
-var url = "mongodb://127.0.0.1:27017/myProject";
-mongoose
-  .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log("Failed to connect to MongoDB:", err);
-  });
 
 // Fetch books from an external API
 async function fetchBooks() {
