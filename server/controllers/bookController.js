@@ -1,4 +1,5 @@
-const Book = require("../models/Book");
+const Book = require("../models/book");
+
 
 // Get all books
 const getAllBooks = async (req, res) => {
@@ -49,4 +50,25 @@ const deleteBook = async (req, res) => {
   }
 };
 
-module.exports = { getAllBooks, createBook, updateBook, deleteBook };
+const getBookById = async (req, res) => {
+  try {
+    // Extract the index from the URL params
+    const book = await Book.findById(req.params.id);
+
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+
+    res.status(200).json(book);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  getAllBooks,
+  createBook,
+  updateBook,
+  deleteBook,
+  getBookById,
+};
