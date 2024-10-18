@@ -1,5 +1,5 @@
 const express = require("express");
-const cors = require("cors");
+
 const userRouter = require("./routes/userRoutes.js");
 const bookRouter = require("./routes/bookRoutes.js");
 const cartRoutes = require("./routes/cartRoutes");
