@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
 import axios from "axios";
 import BookItem from "../components/BookItem";
 
-const Home = () => {
+const Home = ({ addToCart }) => {
   const [books, setBooks] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
 
+  const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get(
-          "https://www.googleapis.com/books/v1/volumes?q=programming"
-        );
-        setBooks(response.data.items);
+        const response = await axios.get("http://localhost:3004/book/books");
+        console.log("response", response);
+        setBooks(response.data); // Set books in the frontend
+        setFilteredItems(response.data);
       } catch (error) {
         console.error("Error fetching books: ", error);
       }
@@ -21,24 +22,76 @@ const Home = () => {
     fetchBooks();
   }, []);
 
-  const filteredBooks = books.filter((book) =>
-    book.volumeInfo.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleCreateCart = async (bookId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3004/book/books/${bookId}`
+      );
+      const book = response.data;
+
+      if (!book) {
+        throw new Error("Book not found");
+      }
+
+      const cartItem = await axios.post(`http://localhost:3004/api/cart`, {
+        bookId: book._id,
+        quantity: 1,
+      });
+
+      addToCart(cartItem.data);
+    } catch (error) {
+      console.error("Error creating cart", error);
+    }
+  };
+
+  const handleSearch = (value) => {
+    const filteredBooks = books.filter((book) =>
+      book.title.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredItems(filteredBooks);
+  };
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl mb-4">Search Books by Category</h2>
-      <input
-        type="text"
-        placeholder="Search by title"
-        className="border p-2 mb-4 w-full"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+    <div className="p-8 bg-gray-100 min-h-screen">
+      <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">
+        Search Books by Category
+      </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {filteredBooks.map((book) => (
-          <BookItem key={book.id} book={book} />
+      <div className="max-w-md mx-auto">
+        <input
+          type="text"
+          placeholder="Search by title"
+          className="border border-gray-300 rounded-lg p-3 mb-6 w-full shadow-sm focus:ring-2 focus:ring-blue-500"
+          // value={searchTerm}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {filteredItems.map((book) => (
+          <div
+            key={book._id}
+            className="bg-white border border-gray-200 p-5 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+          >
+            <img
+              src={book.image}
+              alt={book.title}
+              className="w-full h-64 object-cover mb-4 rounded-lg"
+            />
+            <h3 className="text-xl font-bold text-gray-800 mb-2">
+              {book.title}
+            </h3>
+            <p className="text-gray-600 mb-4">{book.subtitle}</p>
+            <span className="text-lg font-semibold text-gray-900">
+              ${book.price}
+            </span>
+            <button
+              onClick={() => handleCreateCart(book._id)}
+              className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
+            >
+              Add to Cart
+            </button>
+          </div>
         ))}
       </div>
     </div>
