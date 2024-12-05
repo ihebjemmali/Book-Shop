@@ -1,3 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-book-background text-book-text font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif font-bold text-book-primary;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-book-primary text-white font-semibold py-2 px-4 rounded-lg hover:bg-opacity-90 transition duration-300;
+  }
+  .btn-secondary {
+    @apply bg-book-secondary text-white font-semibold py-2 px-4 rounded-lg hover:bg-opacity-90 transition duration-300;
+  }
+  .book-card {
+    @apply bg-white rounded-lg shadow-book-card p-4 transition duration-300 hover:shadow-lg;
+  }
+  .input-field {
+    @apply border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-book-primary focus:border-transparent;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}

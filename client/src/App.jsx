@@ -6,6 +6,9 @@ import Register from "./components/UserComponent/Register";
 import Home from "./Pages/Home";
 import Cart from "./Pages/Cart";
 import BookDetails from "./components/BookDetails";
+import AddBook from "./Pages/AddBook";
+import UpdateBook from "./Pages/UpdateBook";
+import DeleteBook from "./Pages/DeleteBook";
 
 const App = () => {
   const [cart, setCart] = useState([]);
@@ -23,6 +26,9 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/books/:id" element={<BookDetails />} />
         <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
+        <Route path="/add-book" element={<AddBook />} />
+        <Route path="/update-book/:id" element={<UpdateBook />} />
+        <Route path="/delete-book/:id" element={<DeleteBook />} />
       </Routes>
     </Router>
   );

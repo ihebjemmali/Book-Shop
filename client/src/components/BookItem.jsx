@@ -1,31 +1,64 @@
 import React from "react";
 
-const BookItem = ({ book, onAddToCart, onClick }) => {
+const BookItem = ({
+  book,
+  onAddToCart,
+  onClick,
+  onUpdate = () => {},
+  onDelete = () => {},
+}) => {
   return (
-    <div
-      key={book._id}
-      className="bg-white border border-gray-200 p-5 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 max-w-sm w-full" // Adjust width here as well
-    >
-      <img
-        src={book.image}
-        alt={book.title}
-        className="w-full h-64 object-cover mb-4 rounded-lg cursor-pointer"
-        onClick={onClick} // Trigger onClick when the image is clicked
-      />
-      <h3
-        className="text-xl font-bold text-gray-800 mb-2 cursor-pointer"
-        onClick={onClick} // Trigger onClick when the title is clicked
-      >
-        {book.title}
-      </h3>
-      {/* Removed description from here */}
-      <span className="text-lg font-semibold text-gray-900">${book.price}</span>
-      <button
-        onClick={() => onAddToCart(book._id)}
-        className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
-      >
-        Add to Cart
-      </button>
+    <div className="book-card flex flex-col justify-between">
+      <div>
+        <img
+          src={book.image}
+          alt={book.title}
+          className="w-full h-64 object-cover mb-4 rounded-t-lg cursor-pointer"
+          onClick={onClick}
+        />
+        <h3
+          className="text-xl font-semibold text-book-primary mb-2 cursor-pointer hover:text-book-secondary transition-colors duration-300"
+          onClick={onClick}
+        >
+          {book.title}
+        </h3>
+        <p className="text-book-text mb-2">{book.author}</p>
+        <p className="text-lg font-semibold text-book-accent">
+          ${parseFloat(book.price).toFixed(2)}
+        </p>
+      </div>
+      <div className="mt-4 space-y-2">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddToCart(book._id);
+          }}
+          className="btn-primary w-full"
+          aria-label={`Add ${book.title} to cart`}
+        >
+          Add to Cart
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onUpdate) onUpdate();
+          }}
+          className="btn-secondary w-full"
+          aria-label={`Update ${book.title}`}
+        >
+          Update
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onDelete) onDelete();
+          }}
+          className="btn-secondary bg-red-500 hover:bg-red-600 w-full"
+          aria-label={`Delete ${book.title}`}
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 };
